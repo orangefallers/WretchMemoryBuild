@@ -4,11 +4,15 @@
       <time datetime="{{ post.date }}">{{ post.date | date_zh }}</time>
       {% if config.show_visibility_badge and post.visibility != 'public' %}
       <span class="visibility-badge visibility-{{ post.visibility }}">
+        <span class="visibility-lock" aria-hidden="true">🔒</span>
         {{ '隱藏' if post.visibility == 'hidden' else '草稿' }}
       </span>
       {% endif %}
     </div>
     <h2><a href="{{ root_path }}blog/{{ post.slug }}.html">{{ post.title }}</a></h2>
+    {% if post.visibility != 'public' %}
+    <p class="reading-mask-prompt">點擊標題輸入密碼解鎖</p>
+    {% endif %}
   </header>
   {% if post.visibility == 'public' %}
   <div class="post-summary">{{ post.excerpt }}</div>

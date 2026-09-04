@@ -76,6 +76,8 @@ class BackupPipelineTests(unittest.TestCase):
             if post["visibility"] != "public":
                 card = next(card for card in cards if f'blog/{post["slug"]}.html' in card)
                 self.assertNotIn('class="post-summary"', card)
+                self.assertIn('class="visibility-lock"', card)
+                self.assertIn('點擊標題輸入密碼解鎖', card)
 
     def test_public_missing_image_has_safe_placeholder(self):
         public_media_posts = [
