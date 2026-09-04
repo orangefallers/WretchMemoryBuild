@@ -1,6 +1,6 @@
 # Wretch Blog Revival
 
-將 `backup/original/` 內的無名小站備份轉換成可長期保存的靜態 Blog。預設網站只輸出原本公開的文章，以及公開文章下的公開留言。
+將 `backup/original/` 內的無名小站備份轉換成可長期保存的靜態 Blog。公開文章直接顯示；隱藏與草稿文章使用閱讀確認遮罩，輸入密碼後才在頁面中展開。
 
 ## 環境設定
 
@@ -28,7 +28,7 @@ python -m wretch_revival serve
 
 然後瀏覽 `http://localhost:8000`。
 
-本機測試網站位於 `dist/local/`，此目錄不會加入 Git。本機版會顯示全部 205 篇文章，非公開文章會標示為「隱藏」或「草稿」；請勿將本機輸出對外發布。
+本機測試網站位於 `dist/local/`，此目錄不會加入 Git。本機版會顯示全部 205 篇文章，非公開文章會標示為「隱藏」或「草稿」，並使用閱讀確認遮罩。
 
 ## 正式環境
 
@@ -39,7 +39,9 @@ python -m wretch_revival build --environment production
 python scripts/verify_deployment.py dist/production
 ```
 
-正式成品位於 `dist/production/`。這個目錄只包含原本公開的文章及留言，會加入 Git；`backup/original/`、`data/`、`reports/` 和 `dist/local/` 都不會上傳。
+正式成品位於 `dist/production/`，包含全部 205 篇文章及其中 452 則公開留言。58 篇隱藏或草稿文章只在列表顯示標題，文章頁輸入閱讀確認密碼 `111111` 後才展開正文與留言。這是閱讀確認介面，不是安全加密或權限控制；靜態 HTML 仍包含原始內容。
+
+`dist/production/` 會加入 Git；`backup/original/`、`data/`、`reports/` 和 `dist/local/` 都不會上傳。原本標記為隱藏的 23 則留言不會輸出。
 
 推送 `master` 後，[GitHub Pages workflow](.github/workflows/deploy-pages.yml) 會驗證並部署 `dist/production/`。第一次部署前，Repository 的 **Settings → Pages → Build and deployment → Source** 必須選擇 **GitHub Actions**。
 

@@ -12,13 +12,21 @@ class LinkCollector(HTMLParser):
     def __init__(self) -> None:
         super().__init__()
         self.links = []
+        self.inline_scripts = 0
+        self.script_sources = []
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if tag in {"a", "link"} and attrs.get("href"):
             self.links.append(attrs["href"])
-        if tag in {"img", "script"} and attrs.get("src"):
+        if tag == "img" and attrs.get("src"):
             self.links.append(attrs["src"])
+        if tag == "script":
+            if attrs.get("src"):
+                self.links.append(attrs["src"])
+                self.script_sources.append(attrs["src"])
+            else:
+                self.inline_scripts += 1
 
 
 def main() -> int:
@@ -41,12 +49,17 @@ def main() -> int:
     for page in pages:
         content = page.read_text(encoding="utf-8")
         lowered = content.lower()
-        for marker in ("wretch.yimg.com", "<script", "javascript:"):
+        for marker in ("wretch.yimg.com", "javascript:"):
             if marker in lowered:
                 forbidden.append((str(page.relative_to(root)), marker))
 
         collector = LinkCollector()
         collector.feed(content)
+        if collector.inline_scripts:
+            forbidden.append((str(page.relative_to(root)), "inline script"))
+        for source in collector.script_sources:
+            if urlsplit(source).scheme or source.startswith("//"):
+                forbidden.append((str(page.relative_to(root)), "remote script"))
         for value in collector.links:
             parsed = urlsplit(value)
             if parsed.scheme or value.startswith(("#", "mailto:", "tel:")):

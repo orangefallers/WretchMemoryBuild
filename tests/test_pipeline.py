@@ -32,13 +32,50 @@ class BackupPipelineTests(unittest.TestCase):
             output = self.output_root / "blog" / f"{post['slug']}.html"
             self.assertTrue(output.exists())
 
-    def test_production_build_respects_visibility(self):
-        self.assertEqual(self.production_report["posts_generated"], 147)
-        self.assertEqual(self.production_report["comments_generated"], 402)
+    def test_production_build_includes_masked_non_public_posts(self):
+        self.assertEqual(self.production_report["posts_generated"], 205)
+        self.assertEqual(self.production_report["comments_generated"], 452)
         self.assertTrue(self.production_report["build_success"])
         for post in self.data["posts"]:
             output = self.production_root / "blog" / f"{post['slug']}.html"
-            self.assertEqual(output.exists(), post["visibility"] == "public")
+            self.assertTrue(output.exists())
+
+    def test_non_public_post_uses_reading_confirmation_mask(self):
+        protected_posts = [post for post in self.data["posts"] if post["visibility"] != "public"]
+        self.assertEqual(sum(post["visibility"] == "hidden" for post in protected_posts), 5)
+        self.assertEqual(sum(post["visibility"] == "draft" for post in protected_posts), 53)
+        for post in protected_posts:
+            output = self.production_root / "blog" / f"{post['slug']}.html"
+            rendered = output.read_text(encoding="utf-8")
+            self.assertIn('placeholder="輸入密碼"', rendered)
+            self.assertIn('data-reading-mask', rendered)
+            self.assertIn('data-protected-content hidden', rendered)
+            self.assertIn('js/reading-mask.js', rendered)
+
+        script = (self.production_root / "js" / "reading-mask.js").read_text(encoding="utf-8")
+        self.assertIn('READING_PASSWORD = "111111"', script)
+
+    def test_public_post_has_no_reading_confirmation_mask(self):
+        post = next(post for post in self.data["posts"] if post["visibility"] == "public")
+        output = self.production_root / "blog" / f"{post['slug']}.html"
+        rendered = output.read_text(encoding="utf-8")
+        self.assertNotIn('data-reading-mask', rendered)
+        self.assertNotIn('data-protected-content', rendered)
+        self.assertNotIn('js/reading-mask.js', rendered)
+
+    def test_non_public_posts_have_no_list_excerpt(self):
+        pages = [self.production_root / "index.html", *sorted((self.production_root / "page").glob("*/index.html"))]
+        cards = []
+        for page in pages:
+            rendered = page.read_text(encoding="utf-8")
+            cards.extend(
+                section.split("</article>", 1)[0]
+                for section in rendered.split('<article class="post-card">')[1:]
+            )
+        for post in self.data["posts"]:
+            if post["visibility"] != "public":
+                card = next(card for card in cards if f'blog/{post["slug"]}.html' in card)
+                self.assertNotIn('class="post-summary"', card)
 
     def test_public_missing_image_has_safe_placeholder(self):
         public_media_posts = [

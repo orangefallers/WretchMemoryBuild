@@ -42,6 +42,10 @@
     padding: 18px 14px 24px;
   }
 
+  .reading-mask-controls {
+    align-items: stretch;
+  }
+
   .archive-grid {
     grid-template-columns: 1fr;
   }
@@ -77,6 +81,14 @@
   .post-card-footer {
     align-items: flex-start;
     gap: 8px;
+  }
+
+  .reading-mask-controls {
+    flex-direction: column;
+  }
+
+  .reading-mask button {
+    width: 100%;
   }
 }
 

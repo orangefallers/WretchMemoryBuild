@@ -12,8 +12,30 @@
       {% endif %}
     </div>
     <h2>{{ post.title }}</h2>
+    {% if post.visibility != 'public' %}
+    <form class="reading-mask" data-reading-mask novalidate>
+      <label for="reading-password">閱讀確認</label>
+      <div class="reading-mask-controls">
+        <input
+          id="reading-password"
+          name="reading-password"
+          type="password"
+          inputmode="numeric"
+          autocomplete="off"
+          maxlength="6"
+          placeholder="輸入密碼"
+          aria-describedby="reading-mask-help reading-mask-error"
+          required
+        >
+        <button type="submit">展開文章</button>
+      </div>
+      <p id="reading-mask-help" class="reading-mask-help">輸入閱讀確認密碼後可展開全文。</p>
+      <p id="reading-mask-error" class="reading-mask-error" role="alert" hidden>密碼錯誤，請重新輸入。</p>
+    </form>
+    {% endif %}
   </header>
 
+  <div class="post-content"{% if post.visibility != 'public' %} data-protected-content hidden{% endif %}>
   {% if post.tags %}
   <ul class="tag-list" aria-label="文章標籤">
     {% for tag in post.tags %}<li>{{ tag }}</li>{% endfor %}
@@ -25,6 +47,7 @@
   <footer class="post-meta">
     <span>歷史文章編號：{{ post.id }}</span>
   </footer>
+  </div>
 </article>
 
 <nav class="post-navigation" aria-label="相鄰文章">
@@ -37,7 +60,7 @@
 </nav>
 
 {% if config.show_comments %}
-<section class="comments" aria-labelledby="comments-title">
+<section class="comments" aria-labelledby="comments-title"{% if post.visibility != 'public' %} data-protected-content hidden{% endif %}>
   <div class="section-title">
     <h2 id="comments-title">歷史回應</h2>
     <span>{{ comments | length }} 則</span>
@@ -60,5 +83,11 @@
   <p class="no-comments">這篇文章沒有公開的歷史回應。</p>
   {% endfor %}
 </section>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+{% if post.visibility != 'public' %}
+<script src="{{ root_path }}js/reading-mask.js" defer></script>
 {% endif %}
 {% endblock %}

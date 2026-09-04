@@ -288,7 +288,7 @@ a:focus-visible {
   list-style: none;
 }
 
-.post-full > .tag-list {
+.post-content > .tag-list {
   padding-top: 12px;
 }
 
@@ -303,6 +303,81 @@ a:focus-visible {
 
 .post-heading-full {
   border-top: 4px solid var(--sidebar-head);
+}
+
+.reading-mask {
+  margin-top: 13px;
+  padding: 12px;
+  border: 1px solid #d6ae87;
+  background: rgba(255, 253, 248, 0.82);
+}
+
+.reading-mask label {
+  display: block;
+  margin-bottom: 6px;
+  color: #743d28;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.reading-mask-controls {
+  display: flex;
+  gap: 7px;
+}
+
+.reading-mask input {
+  min-width: 0;
+  flex: 1;
+  padding: 7px 9px;
+  border: 1px solid #b99477;
+  border-radius: 0;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.875rem;
+}
+
+.reading-mask input:focus {
+  border-color: var(--accent-dark);
+  outline: 2px solid rgba(240, 162, 58, 0.35);
+  outline-offset: 1px;
+}
+
+.reading-mask button {
+  padding: 7px 14px;
+  border: 1px solid #84381f;
+  background: linear-gradient(#c76230, #98401f);
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.reading-mask button:hover,
+.reading-mask button:focus-visible {
+  background: #7f321b;
+}
+
+.reading-mask-help,
+.reading-mask-error {
+  margin: 6px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.reading-mask-help {
+  color: var(--muted);
+}
+
+.reading-mask-error {
+  color: #a1261d;
+  font-weight: 700;
+}
+
+.reading-mask-error[hidden],
+[data-protected-content][hidden] {
+  display: none;
 }
 
 .post-body {

@@ -10,6 +10,7 @@
     </div>
     <h2><a href="{{ root_path }}blog/{{ post.slug }}.html">{{ post.title }}</a></h2>
   </header>
+  {% if post.visibility == 'public' %}
   <div class="post-summary">{{ post.excerpt }}</div>
   {% if post.tags %}
   <ul class="tag-list" aria-label="文章標籤">
@@ -20,4 +21,5 @@
     <a href="{{ root_path }}blog/{{ post.slug }}.html">繼續閱讀</a>
     <span>回應 ({{ post.comment_count }})</span>
   </footer>
+  {% endif %}
 </article>
