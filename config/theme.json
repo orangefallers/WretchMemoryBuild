@@ -1,6 +1,12 @@
 {
-  "name": "classic",
+  "name": "orange-autumn-classic",
   "layout": "sidebar-right",
-  "page_width": 960
+  "page_width": 960,
+  "palette": {
+    "primary": "#c45a28",
+    "accent": "#f0a23a",
+    "surface": "#fffdf8",
+    "background": "#ede4d8",
+    "text": "#3e3029"
+  }
 }
-

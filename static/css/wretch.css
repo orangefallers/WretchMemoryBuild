@@ -1,20 +1,20 @@
 :root {
   --page-width: 960px;
   --sidebar-width: 230px;
-  --page-bg: #dfe3e1;
-  --paper: #ffffff;
-  --ink: #303638;
-  --muted: #6f7779;
-  --line: #cbd0ce;
-  --soft-line: #e5e8e6;
-  --topbar: #374a50;
-  --header-start: #7896a0;
-  --header-end: #526e77;
-  --accent: #ef8a17;
-  --accent-dark: #a75506;
-  --link: #315f78;
-  --sidebar-head: #607c84;
-  --tag-bg: #edf2f2;
+  --page-bg: #ede4d8;
+  --paper: #fffdf8;
+  --ink: #3e3029;
+  --muted: #7a685d;
+  --line: #d8c2ad;
+  --soft-line: #eee2d5;
+  --topbar: #513127;
+  --header-start: #df7a2f;
+  --header-end: #a33f25;
+  --accent: #f0a23a;
+  --accent-dark: #963c1f;
+  --link: #a34b22;
+  --sidebar-head: #a94d28;
+  --tag-bg: #fff0da;
 }
 
 * {
@@ -31,7 +31,7 @@ html {
 body {
   margin: 0;
   background:
-    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.3) 0, rgba(255, 255, 255, 0.3) 1px, transparent 1px, transparent 5px),
+    repeating-linear-gradient(0deg, rgba(255, 253, 248, 0.34) 0, rgba(255, 253, 248, 0.34) 1px, transparent 1px, transparent 5px),
     var(--page-bg);
   line-height: 1.75;
 }
@@ -51,7 +51,7 @@ a:focus-visible {
   min-height: 34px;
   background: var(--topbar);
   border-bottom: 3px solid var(--accent);
-  color: #f1f4f4;
+  color: #fff8ed;
   font-size: 0.875rem;
 }
 
@@ -78,8 +78,8 @@ a:focus-visible {
   width: min(var(--page-width), calc(100% - 24px));
   margin: 18px auto 30px;
   background: var(--paper);
-  border: 1px solid #aeb7b5;
-  box-shadow: 0 2px 7px rgba(36, 48, 51, 0.2);
+  border: 1px solid #c7aa94;
+  box-shadow: 0 3px 10px rgba(87, 49, 31, 0.2);
 }
 
 .blog-header {
@@ -87,9 +87,10 @@ a:focus-visible {
   padding: 25px 32px 22px;
   color: #fff;
   background:
-    linear-gradient(135deg, rgba(255,255,255,.14) 0 18%, transparent 18% 100%),
+    radial-gradient(circle at 88% 20%, rgba(255, 224, 157, 0.22) 0 58px, transparent 59px),
+    linear-gradient(135deg, rgba(255,255,255,.12) 0 18%, transparent 18% 100%),
     linear-gradient(110deg, var(--header-start), var(--header-end));
-  border-bottom: 1px solid #405b63;
+  border-bottom: 1px solid #81351f;
   position: relative;
   overflow: hidden;
 }
@@ -101,7 +102,7 @@ a:focus-visible {
   bottom: -70px;
   width: 240px;
   height: 150px;
-  border: 18px solid rgba(255, 255, 255, 0.08);
+  border: 18px solid rgba(255, 225, 170, 0.12);
   border-radius: 50%;
   transform: rotate(-8deg);
 }
@@ -135,7 +136,7 @@ a:focus-visible {
   max-width: 620px;
   font-size: 0.9375rem;
   line-height: 1.65;
-  color: #f3f6f6;
+  color: #fff8ec;
   white-space: pre-line;
 }
 
@@ -143,8 +144,8 @@ a:focus-visible {
   display: flex;
   min-height: 38px;
   padding-left: 18px;
-  background: linear-gradient(#fafafa, #e5e8e7);
-  border-bottom: 1px solid #b9c0be;
+  background: linear-gradient(#fffaf1, #f0dfcb);
+  border-bottom: 1px solid #cbb19d;
 }
 
 .main-nav a {
@@ -153,10 +154,17 @@ a:focus-visible {
   min-width: 104px;
   padding: 6px 16px;
   border-left: 1px solid #fff;
-  border-right: 1px solid #c7ccca;
-  color: #465356;
+  border-right: 1px solid #d5bca7;
+  color: #684434;
   font-size: 0.875rem;
   font-weight: 700;
+}
+
+.main-nav a:hover,
+.main-nav a:focus-visible {
+  background: #fff3df;
+  color: var(--accent-dark);
+  text-decoration: none;
 }
 
 .layout {
@@ -179,14 +187,14 @@ a:focus-visible {
   margin-bottom: 14px;
   padding: 5px 9px;
   border-left: 5px solid var(--accent);
-  border-bottom: 1px dotted #9da6a4;
-  background: #f4f6f5;
+  border-bottom: 1px dotted #bd9d85;
+  background: #fff6e9;
 }
 
 .section-title h2 {
   margin: 0;
   font-size: 1.05rem;
-  color: #40565d;
+  color: #743d28;
 }
 
 .section-title span {
@@ -198,12 +206,12 @@ a:focus-visible {
 .post-full {
   margin: 0 0 24px;
   border: 1px solid var(--line);
-  background: #fff;
+  background: var(--paper);
 }
 
 .post-heading {
   padding: 7px 12px 9px;
-  background: linear-gradient(90deg, #eef3f2, #fafbfb);
+  background: linear-gradient(90deg, #fff0dc, #fffaf2);
   border-bottom: 1px solid var(--line);
 }
 
@@ -221,12 +229,12 @@ a:focus-visible {
 }
 
 .post-heading h2 a {
-  color: #304f5b;
+  color: #7f3d25;
 }
 
 .post-summary {
   padding: 16px 15px 12px;
-  color: #42494b;
+  color: #4d3b32;
   line-height: 1.8;
 }
 
@@ -234,7 +242,7 @@ a:focus-visible {
   display: flex;
   justify-content: space-between;
   padding: 7px 12px;
-  background: #f8f9f8;
+  background: #fff9ef;
   border-top: 1px dotted var(--line);
   color: var(--muted);
   font-size: 0.8125rem;
@@ -255,9 +263,9 @@ a:focus-visible {
 
 .tag-list li {
   padding: 1px 8px;
-  border: 1px solid #cbd7d7;
+  border: 1px solid #e0bd97;
   background: var(--tag-bg);
-  color: #53696e;
+  color: #874a2c;
   font-size: 0.75rem;
   line-height: 1.7;
 }
@@ -270,7 +278,7 @@ a:focus-visible {
   min-height: 180px;
   padding: 22px 20px 30px;
   overflow-wrap: anywhere;
-  color: #2c3031;
+  color: #382c27;
   line-height: 1.9;
 }
 
@@ -290,7 +298,7 @@ a:focus-visible {
 .post-meta {
   padding: 7px 12px;
   border-top: 1px dotted var(--line);
-  background: #f8f9f8;
+  background: #fff9ef;
   color: var(--muted);
   font-size: 0.75rem;
 }
@@ -303,14 +311,14 @@ a:focus-visible {
   min-height: 150px;
   margin: 16px auto;
   padding: 20px;
-  border: 1px dashed #a9afad;
-  background: #f3f4f2;
-  color: #697071;
+  border: 1px dashed #c69c7a;
+  background: #fff7ea;
+  color: #7a6254;
   text-align: center;
 }
 
 .missing-image span {
-  color: #8a9290;
+  color: #bd7546;
   font-size: 2rem;
   line-height: 1;
 }
@@ -318,7 +326,7 @@ a:focus-visible {
 .missing-image small {
   display: block;
   max-width: 100%;
-  color: #929896;
+  color: #927969;
   font-size: 0.75rem;
   overflow-wrap: anywhere;
 }
@@ -334,7 +342,7 @@ a:focus-visible {
   display: block;
   padding: 8px 10px;
   border: 1px solid var(--line);
-  background: #f7f8f7;
+  background: #fff8ec;
   font-size: 0.875rem;
 }
 
@@ -362,9 +370,9 @@ a:focus-visible {
   justify-content: space-between;
   gap: 12px;
   padding: 5px 10px;
-  background: #eef2f1;
+  background: #fff0dc;
   border-bottom: 1px solid var(--line);
-  color: #40565d;
+  color: #75422e;
   font-size: 0.875rem;
 }
 
@@ -382,7 +390,7 @@ a:focus-visible {
   margin: 0 12px 12px;
   padding: 8px 10px;
   border-left: 3px solid var(--accent);
-  background: #fff8ed;
+  background: #fff4df;
   font-size: 0.875rem;
 }
 
@@ -390,22 +398,22 @@ a:focus-visible {
 .empty-state {
   padding: 28px;
   border: 1px dashed var(--line);
-  background: #f8f9f8;
+  background: #fff9ef;
   color: var(--muted);
   text-align: center;
 }
 
 .sidebar-box {
   margin-bottom: 16px;
-  border: 1px solid #aeb9b7;
-  background: #f9faf9;
+  border: 1px solid #c9aa91;
+  background: #fffaf1;
 }
 
 .sidebar-box h2 {
   margin: 0;
   padding: 5px 9px;
-  background: linear-gradient(#718d94, var(--sidebar-head));
-  border-bottom: 1px solid #485f65;
+  background: linear-gradient(#cb682f, var(--sidebar-head));
+  border-bottom: 1px solid #7d351f;
   color: #fff;
   font-size: 0.875rem;
   letter-spacing: 0.08em;
@@ -413,7 +421,7 @@ a:focus-visible {
 
 .sidebar-content {
   padding: 12px;
-  color: #51595b;
+  color: #574238;
   font-size: 0.875rem;
 }
 
@@ -430,9 +438,9 @@ a:focus-visible {
   height: 52px;
   margin: 0 10px 5px 0;
   border: 4px solid #fff;
-  outline: 1px solid #c2cac8;
-  background: #d8e2e1;
-  color: #5b7378;
+  outline: 1px solid #d3b59b;
+  background: #f8d3a1;
+  color: #8f4325;
   font-family: Georgia, serif;
   font-size: 1.55rem;
 }
@@ -445,7 +453,7 @@ a:focus-visible {
 
 .link-list li {
   padding: 3px 0;
-  border-bottom: 1px dotted #d1d6d5;
+  border-bottom: 1px dotted #dfc7b1;
 }
 
 .link-list li:last-child {
@@ -459,7 +467,7 @@ a:focus-visible {
 .sidebar-more {
   margin: 0;
   padding: 4px 9px 7px;
-  border-top: 1px solid #e2e5e4;
+  border-top: 1px solid #ebdac9;
   text-align: right;
   font-size: 0.75rem;
 }
@@ -476,8 +484,8 @@ a:focus-visible {
 .pagination strong {
   min-width: 31px;
   padding: 3px 8px;
-  border: 1px solid #b9c2c0;
-  background: #f4f6f5;
+  border: 1px solid #cfad91;
+  background: #fff8ec;
   text-align: center;
   font-size: 0.8125rem;
 }
@@ -504,7 +512,7 @@ a:focus-visible {
   gap: 10px;
   padding: 10px 12px;
   border: 1px solid var(--line);
-  background: linear-gradient(#fff, #f3f5f4);
+  background: linear-gradient(#fffdf8, #fff3e2);
 }
 
 .archive-grid span {
@@ -514,9 +522,9 @@ a:focus-visible {
 
 .site-footer {
   padding: 12px 20px;
-  border-top: 1px solid #bdc5c3;
-  background: #eef1f0;
-  color: #717879;
+  border-top: 1px solid #cdb29d;
+  background: #f5e5d4;
+  color: #806a5c;
   text-align: center;
   font-size: 0.75rem;
 }
