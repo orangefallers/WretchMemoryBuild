@@ -7,13 +7,12 @@
       <time datetime="{{ post.date }}">{{ post.date | date_zh }}</time>
       {% if config.show_visibility_badge and post.visibility != 'public' %}
       <span class="visibility-badge visibility-{{ post.visibility }}">
-        <span class="visibility-lock" aria-hidden="true">🔒</span>
         {{ '隱藏' if post.visibility == 'hidden' else '草稿' }}
       </span>
       {% endif %}
     </div>
-    <h2>{{ post.title }}</h2>
     {% if post.visibility != 'public' %}
+    <h2>{{ post.title }}<span class="title-lock" aria-label="上鎖文章">🔒</span></h2>
     <form class="reading-mask" data-reading-mask novalidate>
       <label for="reading-password">閱讀確認</label>
       <div class="reading-mask-controls">
@@ -33,6 +32,8 @@
       <p id="reading-mask-help" class="reading-mask-help">輸入閱讀確認密碼後可展開全文。</p>
       <p id="reading-mask-error" class="reading-mask-error" role="alert" hidden>密碼錯誤，請重新輸入。</p>
     </form>
+    {% else %}
+    <h2>{{ post.title }}</h2>
     {% endif %}
   </header>
 

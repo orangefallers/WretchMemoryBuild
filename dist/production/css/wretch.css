@@ -233,9 +233,7 @@ a:focus-visible {
 }
 
 .visibility-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  display: inline-block;
   padding: 1px 8px;
   border: 1px solid #a75231;
   background: #a94727;
@@ -243,11 +241,6 @@ a:focus-visible {
   font-size: 0.75rem;
   font-weight: 700;
   line-height: 1.6;
-}
-
-.visibility-lock {
-  font-size: 0.78rem;
-  line-height: 1;
 }
 
 .visibility-hidden {
@@ -268,6 +261,14 @@ a:focus-visible {
 
 .post-heading h2 a {
   color: #7f3d25;
+}
+
+.title-lock {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 0.78em;
+  line-height: 1;
+  vertical-align: 0.08em;
 }
 
 .reading-mask-prompt {
