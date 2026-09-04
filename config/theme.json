@@ -2,6 +2,7 @@
   "name": "orange-autumn-classic",
   "layout": "sidebar-right",
   "page_width": 960,
+  "header_asset": "assets/header-maple-leaves.png",
   "palette": {
     "primary": "#c45a28",
     "accent": "#f0a23a",

@@ -15,6 +15,12 @@
     padding: 22px 18px;
   }
 
+  .blog-header::before {
+    width: 82%;
+    background-size: auto 125%;
+    opacity: 0.48;
+  }
+
   .main-nav {
     padding-left: 0;
   }
@@ -44,6 +50,12 @@
 @media (max-width: 480px) {
   .utility-inner {
     padding: 0 12px;
+  }
+
+  .blog-header::before {
+    width: 100%;
+    background-position: 78% center;
+    opacity: 0.34;
   }
 
   .post-navigation {

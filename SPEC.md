@@ -525,7 +525,7 @@ Sidebar
 
 不得出現橫向捲軸、文字溢出或圖片破版。
 
-MVP 僅提供 `orange-autumn-classic` Theme，以深橙、楓葉紅、琥珀金與暖米白呈現「橙色秋天」的個人風格。
+MVP 僅提供 `orange-autumn-classic` Theme，以深橙、楓葉紅、琥珀金、暖米白及透明楓葉 Header 紋理呈現「橙色秋天」的個人風格。
 
 ---
 

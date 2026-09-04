@@ -95,16 +95,19 @@ a:focus-visible {
   overflow: hidden;
 }
 
-.blog-header::after {
+.blog-header::before {
   content: "";
   position: absolute;
-  right: -35px;
-  bottom: -70px;
-  width: 240px;
-  height: 150px;
-  border: 18px solid rgba(255, 225, 170, 0.12);
-  border-radius: 50%;
-  transform: rotate(-8deg);
+  inset: 0 0 0 auto;
+  width: 72%;
+  background: url("../assets/header-maple-leaves.png") right center / auto 148% no-repeat;
+  opacity: 0.78;
+  pointer-events: none;
+}
+
+.blog-header > * {
+  position: relative;
+  z-index: 1;
 }
 
 .blog-owner {
