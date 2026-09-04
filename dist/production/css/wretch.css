@@ -225,6 +225,34 @@ a:focus-visible {
   font-weight: 700;
 }
 
+.post-status-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.visibility-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border: 1px solid #a75231;
+  background: #a94727;
+  color: #fff9ef;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.6;
+}
+
+.visibility-hidden {
+  border-color: #704233;
+  background: #704233;
+}
+
+.visibility-draft {
+  border-color: #b86b27;
+  background: #c77a2e;
+}
+
 .post-heading h2 {
   margin: 0;
   font-size: 1.25rem;

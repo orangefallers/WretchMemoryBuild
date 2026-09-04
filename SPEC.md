@@ -609,7 +609,7 @@ dist/
 
 環境規則：
 
-- `dist/local/` 由 `.gitignore` 排除，只供本機測試。
+- `dist/local/` 由 `.gitignore` 排除，只供本機測試；顯示全部 205 篇文章，並標示隱藏與草稿狀態。
 - `dist/production/` 只包含篩選後的公開內容，必須加入 Git。
 - GitHub Actions 只可上傳 `dist/production/`。
 - 原始備份、標準化資料、報告與虛擬環境不得加入部署 Artifact。

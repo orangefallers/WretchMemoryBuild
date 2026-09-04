@@ -1,6 +1,13 @@
 <article class="post-card">
   <header class="post-heading">
-    <time datetime="{{ post.date }}">{{ post.date | date_zh }}</time>
+    <div class="post-status-line">
+      <time datetime="{{ post.date }}">{{ post.date | date_zh }}</time>
+      {% if config.show_visibility_badge and post.visibility != 'public' %}
+      <span class="visibility-badge visibility-{{ post.visibility }}">
+        {{ '隱藏' if post.visibility == 'hidden' else '草稿' }}
+      </span>
+      {% endif %}
+    </div>
     <h2><a href="{{ root_path }}blog/{{ post.slug }}.html">{{ post.title }}</a></h2>
   </header>
   <div class="post-summary">{{ post.excerpt }}</div>
@@ -14,4 +21,3 @@
     <span>回應 ({{ post.comment_count }})</span>
   </footer>
 </article>
-

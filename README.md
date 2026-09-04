@@ -28,7 +28,7 @@ python -m wretch_revival serve
 
 然後瀏覽 `http://localhost:8000`。
 
-本機測試網站位於 `dist/local/`，此目錄不會加入 Git。
+本機測試網站位於 `dist/local/`，此目錄不會加入 Git。本機版會顯示全部 205 篇文章，非公開文章會標示為「隱藏」或「草稿」；請勿將本機輸出對外發布。
 
 ## 正式環境
 

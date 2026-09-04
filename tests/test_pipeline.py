@@ -14,6 +14,8 @@ class BackupPipelineTests(unittest.TestCase):
         cls.data = normalize_backup()
         cls.output_root = DIST_ROOT / "local"
         cls.report = build_site(cls.data, environment="local")
+        cls.production_root = DIST_ROOT / "production"
+        cls.production_report = build_site(cls.data, environment="production")
 
     def test_backup_counts_match_declared_values(self):
         self.assertEqual(self.inspection["posts"], 205)
@@ -22,12 +24,20 @@ class BackupPipelineTests(unittest.TestCase):
         self.assertEqual(self.inspection["comments_declared"], 475)
         self.assertEqual(self.inspection["orphan_comments"], 0)
 
-    def test_default_build_respects_visibility(self):
-        self.assertEqual(self.report["posts_generated"], 147)
-        self.assertEqual(self.report["comments_generated"], 402)
+    def test_local_build_includes_non_public_posts(self):
+        self.assertEqual(self.report["posts_generated"], 205)
+        self.assertEqual(self.report["comments_generated"], 452)
         self.assertTrue(self.report["build_success"])
         for post in self.data["posts"]:
             output = self.output_root / "blog" / f"{post['slug']}.html"
+            self.assertTrue(output.exists())
+
+    def test_production_build_respects_visibility(self):
+        self.assertEqual(self.production_report["posts_generated"], 147)
+        self.assertEqual(self.production_report["comments_generated"], 402)
+        self.assertTrue(self.production_report["build_success"])
+        for post in self.data["posts"]:
+            output = self.production_root / "blog" / f"{post['slug']}.html"
             self.assertEqual(output.exists(), post["visibility"] == "public")
 
     def test_public_missing_image_has_safe_placeholder(self):

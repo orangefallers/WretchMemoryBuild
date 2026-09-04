@@ -2,5 +2,6 @@
   "environment": "production",
   "include_drafts": false,
   "include_hidden_comments": false,
+  "show_visibility_badge": false,
   "robots": "index,follow"
 }

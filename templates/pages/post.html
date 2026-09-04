@@ -3,7 +3,14 @@
 {% block content %}
 <article class="post-full">
   <header class="post-heading post-heading-full">
-    <time datetime="{{ post.date }}">{{ post.date | date_zh }}</time>
+    <div class="post-status-line">
+      <time datetime="{{ post.date }}">{{ post.date | date_zh }}</time>
+      {% if config.show_visibility_badge and post.visibility != 'public' %}
+      <span class="visibility-badge visibility-{{ post.visibility }}">
+        {{ '隱藏' if post.visibility == 'hidden' else '草稿' }}
+      </span>
+      {% endif %}
+    </div>
     <h2>{{ post.title }}</h2>
   </header>
 
@@ -55,4 +62,3 @@
 </section>
 {% endif %}
 {% endblock %}
-
