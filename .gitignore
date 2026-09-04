@@ -5,12 +5,15 @@ __pycache__/
 *.egg-info/
 .pytest_cache/
 
-# Generated outputs
+# Local generated outputs
 data/*.json
 reports/*.json
 reports/*.log
-dist/
+dist/*
+
+# Production contains only filtered public pages and is deployed by GitHub Pages.
+!dist/production/
+!dist/production/**
 
 # The backup may contain private historical data.
 backup/original/
-

@@ -60,12 +60,18 @@ def _format_short_date(value: Optional[str]) -> str:
     return f"{dt.year}/{dt.month:02d}/{dt.day:02d}"
 
 
-def _load_config() -> Dict[str, Any]:
-    return json.loads((CONFIG_ROOT / "site.json").read_text(encoding="utf-8"))
+def _load_config(environment: str) -> Dict[str, Any]:
+    supported = {"local", "production"}
+    if environment not in supported:
+        raise ValueError(f"不支援的環境：{environment}")
+    config = json.loads((CONFIG_ROOT / "site.json").read_text(encoding="utf-8"))
+    override_path = CONFIG_ROOT / "environments" / f"{environment}.json"
+    config.update(json.loads(override_path.read_text(encoding="utf-8")))
+    return config
 
 
-def _root_path(output_path: Path) -> str:
-    relative = os.path.relpath(DIST_ROOT, output_path.parent).replace(os.sep, "/")
+def _root_path(output_path: Path, output_root: Path) -> str:
+    relative = os.path.relpath(output_root, output_path.parent).replace(os.sep, "/")
     return "" if relative == "." else relative.rstrip("/") + "/"
 
 
@@ -94,14 +100,18 @@ def _prepare_list_post(post: Dict[str, Any], comment_counts: Counter) -> Dict[st
     return result
 
 
-def build_site(data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
+def build_site(
+    data: Optional[Dict[str, Any]] = None,
+    environment: str = "local",
+) -> Dict[str, Any]:
     if data is None:
         data = {
             "profile": read_json(DATA_ROOT / "profile.json"),
             "posts": read_json(DATA_ROOT / "posts.json"),
             "comments": read_json(DATA_ROOT / "comments.json"),
         }
-    config = _load_config()
+    config = _load_config(environment)
+    output_root = DIST_ROOT / environment
     posts = data["posts"]
     comments = data["comments"]
     profile = dict(data["profile"])
@@ -128,10 +138,11 @@ def build_site(data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         values.sort(key=lambda comment: comment.get("date") or "")
     comment_counts = Counter(comment["post_id"] for comment in generated_comments)
 
-    if DIST_ROOT.exists():
-        shutil.rmtree(DIST_ROOT)
-    DIST_ROOT.mkdir(parents=True)
-    shutil.copytree(STATIC_ROOT, DIST_ROOT, dirs_exist_ok=True)
+    if output_root.exists():
+        shutil.rmtree(output_root)
+    output_root.mkdir(parents=True)
+    shutil.copytree(STATIC_ROOT, output_root, dirs_exist_ok=True)
+    (output_root / ".nojekyll").write_text("", encoding="utf-8")
 
     copied_media = set()
     for post in generated_posts:
@@ -139,7 +150,7 @@ def build_site(data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
             if not item.get("available") or not item.get("source_path"):
                 continue
             source = PROJECT_ROOT / item["source_path"]
-            destination = DIST_ROOT / "images" / item["output_name"]
+            destination = output_root / "images" / item["output_name"]
             if item["output_name"] not in copied_media:
                 destination.parent.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(source, destination)
@@ -158,7 +169,7 @@ def build_site(data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     recent_posts = generated_posts[:10]
 
     def render(template_name: str, output: Path, **context: Any) -> None:
-        root_path = _root_path(output)
+        root_path = _root_path(output, output_root)
         full_context = {
             "profile": profile,
             "config": config,
@@ -178,7 +189,7 @@ def build_site(data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     for page_number in range(1, page_count + 1):
         page_posts = generated_posts[(page_number - 1) * per_page : page_number * per_page]
         page_posts = [_prepare_list_post(post, comment_counts) for post in page_posts]
-        output = DIST_ROOT / "index.html" if page_number == 1 else DIST_ROOT / "page" / str(page_number) / "index.html"
+        output = output_root / "index.html" if page_number == 1 else output_root / "page" / str(page_number) / "index.html"
         render(
             "pages/index.html",
             output,
@@ -189,8 +200,8 @@ def build_site(data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
 
     chronological = sorted(generated_posts, key=lambda post: (post.get("date") or "", post["id"]))
     for index, post in enumerate(chronological):
-        output = DIST_ROOT / "blog" / f"{post['slug']}.html"
-        root_path = _root_path(output)
+        output = output_root / "blog" / f"{post['slug']}.html"
+        root_path = _root_path(output, output_root)
         rendered_post = dict(post)
         rendered_post["rendered_html"] = sanitize_html(
             post["content_html"], post.get("media", []), root_path + "images/"
@@ -217,7 +228,7 @@ def build_site(data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
 
     render(
         "pages/archive-index.html",
-        DIST_ROOT / "archive" / "index.html",
+        output_root / "archive" / "index.html",
         page_title=f"月份文章 - {profile['blog_title']}",
     )
     for archive in archives:
@@ -225,7 +236,7 @@ def build_site(data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         month_posts = [_prepare_list_post(post, comment_counts) for post in month_posts]
         render(
             "pages/archive.html",
-            DIST_ROOT / "archive" / archive["year"] / f"{archive['month']}.html",
+            output_root / "archive" / archive["year"] / f"{archive['month']}.html",
             page_title=f"{archive['label']} - {profile['blog_title']}",
             archive=archive,
             posts=month_posts,
@@ -235,10 +246,13 @@ def build_site(data: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         "site_name": profile["blog_title"],
         "posts": len(generated_posts),
         "comments": len(generated_comments),
+        "environment": environment,
         "generator": "wretch-revival 0.1.0",
     }
-    write_json(DIST_ROOT / "build-info.json", public_build_info)
+    write_json(output_root / "build-info.json", public_build_info)
 
-    report = build_report(posts, comments, generated_posts, generated_comments, DIST_ROOT)
-    write_json(REPORTS_ROOT / "build-report.json", report)
+    report = build_report(posts, comments, generated_posts, generated_comments, output_root)
+    report["environment"] = environment
+    report["output_path"] = str(output_root)
+    write_json(REPORTS_ROOT / f"build-report-{environment}.json", report)
     return report

@@ -12,7 +12,8 @@ class BackupPipelineTests(unittest.TestCase):
     def setUpClass(cls):
         cls.inspection = inspect_backup(write_report=True)
         cls.data = normalize_backup()
-        cls.report = build_site(cls.data)
+        cls.output_root = DIST_ROOT / "local"
+        cls.report = build_site(cls.data, environment="local")
 
     def test_backup_counts_match_declared_values(self):
         self.assertEqual(self.inspection["posts"], 205)
@@ -26,7 +27,7 @@ class BackupPipelineTests(unittest.TestCase):
         self.assertEqual(self.report["comments_generated"], 402)
         self.assertTrue(self.report["build_success"])
         for post in self.data["posts"]:
-            output = DIST_ROOT / "blog" / f"{post['slug']}.html"
+            output = self.output_root / "blog" / f"{post['slug']}.html"
             self.assertEqual(output.exists(), post["visibility"] == "public")
 
     def test_public_missing_image_has_safe_placeholder(self):
@@ -37,7 +38,7 @@ class BackupPipelineTests(unittest.TestCase):
         ]
         self.assertEqual(len(public_media_posts), 1)
         post = public_media_posts[0]
-        output = DIST_ROOT / "blog" / f"{post['slug']}.html"
+        output = self.output_root / "blog" / f"{post['slug']}.html"
         rendered = output.read_text(encoding="utf-8")
         self.assertIn("歷史圖片已遺失", rendered)
         self.assertNotIn("<img", rendered)

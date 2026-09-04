@@ -1,0 +1,6 @@
+{
+  "environment": "production",
+  "include_drafts": false,
+  "include_hidden_comments": false,
+  "robots": "index,follow"
+}

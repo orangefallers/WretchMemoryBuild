@@ -253,7 +253,14 @@ NoNameBlog/
 │
 ├── config/
 │   ├── site.json
-│   └── theme.json
+│   ├── theme.json
+│   └── environments/
+│       ├── local.json
+│       └── production.json
+│
+├── .github/
+│   └── workflows/
+│       └── deploy-pages.yml
 │
 ├── src/
 │   └── wretch_revival/
@@ -294,7 +301,12 @@ NoNameBlog/
 ├── tests/
 │   └── fixtures/
 │
+├── scripts/
+│   └── verify_deployment.py
+│
 └── dist/
+    ├── local/
+    └── production/
 ```
 
 `backup/original/` 內的檔案視為唯讀來源。所有轉換結果只能寫入 `data/`、`reports/` 或 `dist/`。
@@ -550,8 +562,11 @@ python -m wretch_revival inspect
 # 解析與標準化
 python -m wretch_revival import
 
-# 產生網站並執行完整性檢查
-python -m wretch_revival build
+# 產生本機測試網站並執行完整性檢查
+python -m wretch_revival build --environment local
+
+# 產生正式公開網站
+python -m wretch_revival build --environment production
 
 # 本機預覽
 python -m wretch_revival serve
@@ -569,14 +584,17 @@ http://localhost:8000
 
 ```text
 dist/
-├── index.html
-├── page/
-├── blog/
-├── archive/
-├── css/
-├── js/
-├── images/
-└── build-info.json
+├── local/
+│   └── ...本機測試網站
+└── production/
+    ├── .nojekyll
+    ├── index.html
+    ├── page/
+    ├── blog/
+    ├── archive/
+    ├── css/
+    ├── images/
+    └── build-info.json
 ```
 
 `dist/` 必須可以部署至：
@@ -588,6 +606,14 @@ dist/
 - 本機 HTTP Server。
 
 正式輸出不得依賴 PHP、MySQL、WordPress、外部 CMS、登入系統或專有 API。
+
+環境規則：
+
+- `dist/local/` 由 `.gitignore` 排除，只供本機測試。
+- `dist/production/` 只包含篩選後的公開內容，必須加入 Git。
+- GitHub Actions 只可上傳 `dist/production/`。
+- 原始備份、標準化資料、報告與虛擬環境不得加入部署 Artifact。
+- 正式頁面使用相對連結，以支援 GitHub Pages 的 `/WretchMemoryBuild/` 子路徑。
 
 ---
 
@@ -610,7 +636,7 @@ dist/
 輸出留言數 = 402
 ```
 
-`reports/build-report.json` 範例：
+`reports/build-report-local.json` 與 `reports/build-report-production.json` 範例：
 
 ```json
 {

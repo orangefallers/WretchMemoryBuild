@@ -9,6 +9,8 @@ REPORTS_ROOT = PROJECT_ROOT / "reports"
 TEMPLATES_ROOT = PROJECT_ROOT / "templates"
 STATIC_ROOT = PROJECT_ROOT / "static"
 DIST_ROOT = PROJECT_ROOT / "dist"
+LOCAL_DIST_ROOT = DIST_ROOT / "local"
+PRODUCTION_DIST_ROOT = DIST_ROOT / "production"
 
 
 def find_backup_file(pattern: str) -> Path:
@@ -18,4 +20,3 @@ def find_backup_file(pattern: str) -> Path:
     if len(matches) > 1:
         raise RuntimeError(f"找到多個 {pattern}，無法判斷來源：{matches}")
     return matches[0]
-
