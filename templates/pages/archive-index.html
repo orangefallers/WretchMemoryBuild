@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="archive-page">
+  <div class="section-title"><h2>月份文章</h2></div>
+  <ul class="archive-grid">
+    {% for item in archives %}
+    <li>
+      <a href="{{ root_path }}{{ item.path }}">
+        <strong>{{ item.label }}</strong>
+        <span>{{ item.count }} 篇文章</span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}
+

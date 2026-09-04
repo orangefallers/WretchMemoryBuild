@@ -1,0 +1,30 @@
+<aside class="sidebar" aria-label="側邊欄">
+  <section class="sidebar-box profile-box">
+    <h2>關於我</h2>
+    <div class="sidebar-content">
+      <div class="avatar-placeholder" aria-hidden="true">{{ profile.nickname[:1] }}</div>
+      <strong>{{ profile.nickname }}</strong>
+      {% if profile.description %}<p>{{ profile.description }}</p>{% endif %}
+    </div>
+  </section>
+
+  <section class="sidebar-box">
+    <h2>最新文章</h2>
+    <ul class="link-list">
+      {% for item in recent_posts %}
+      <li><a href="{{ root_path }}blog/{{ item.slug }}.html">{{ item.title }}</a></li>
+      {% endfor %}
+    </ul>
+  </section>
+
+  <section class="sidebar-box">
+    <h2>月份文章</h2>
+    <ul class="link-list archive-list">
+      {% for item in archives[:12] %}
+      <li><a href="{{ root_path }}{{ item.path }}">{{ item.label }} <span>({{ item.count }})</span></a></li>
+      {% endfor %}
+    </ul>
+    <p class="sidebar-more"><a href="{{ root_path }}archive/">查看全部月份</a></p>
+  </section>
+</aside>
+

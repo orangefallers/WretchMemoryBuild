@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="{{ config.robots }}">
+  <meta name="description" content="{{ profile.description or profile.blog_title }}">
+  <title>{{ page_title }}</title>
+  <link rel="stylesheet" href="{{ root_path }}css/wretch.css">
+  <link rel="stylesheet" href="{{ root_path }}css/responsive.css">
+</head>
+<body>
+  <div class="utility-bar">
+    <div class="utility-inner">
+      <span class="archive-mark" aria-hidden="true">●</span>
+      <span>歷史網誌備份</span>
+      <a href="{{ root_path }}archive/">月份文章</a>
+    </div>
+  </div>
+
+  <div class="site-shell">
+    <header class="blog-header">
+      <p class="blog-owner">{{ profile.nickname }} 的網誌</p>
+      <h1><a href="{{ root_path }}">{{ profile.blog_title }}</a></h1>
+      {% if profile.description %}
+      <p class="blog-description">{{ profile.description }}</p>
+      {% endif %}
+    </header>
+
+    <nav class="main-nav" aria-label="主要導覽">
+      <a href="{{ root_path }}">網誌首頁</a>
+      <a href="{{ root_path }}archive/">月份文章</a>
+    </nav>
+
+    <div class="layout">
+      <main id="main-content">
+        {% block content %}{% endblock %}
+      </main>
+      {% include "components/sidebar.html" %}
+    </div>
+
+    <footer class="site-footer">
+      <p>此網站由無名小站歷史備份重建，文章與留言保留原始內容。</p>
+    </footer>
+  </div>
+</body>
+</html>

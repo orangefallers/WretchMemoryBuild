@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "wretch-revival"
+version = "0.1.0"
+description = "Build a static archive from a Wretch blog backup"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+  "bleach>=6.1,<7",
+  "Jinja2>=3.1,<4",
+]
+
+[project.scripts]
+wretch-revival = "wretch_revival.cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+

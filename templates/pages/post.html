@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block content %}
+<article class="post-full">
+  <header class="post-heading post-heading-full">
+    <time datetime="{{ post.date }}">{{ post.date | date_zh }}</time>
+    <h2>{{ post.title }}</h2>
+  </header>
+
+  {% if post.tags %}
+  <ul class="tag-list" aria-label="文章標籤">
+    {% for tag in post.tags %}<li>{{ tag }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+
+  <div class="post-body">{{ post.rendered_html | safe }}</div>
+
+  <footer class="post-meta">
+    <span>歷史文章編號：{{ post.id }}</span>
+  </footer>
+</article>
+
+<nav class="post-navigation" aria-label="相鄰文章">
+  {% if previous_post %}
+  <a class="previous" href="{{ root_path }}blog/{{ previous_post.slug }}.html"><span>上一篇</span>{{ previous_post.title }}</a>
+  {% else %}<span></span>{% endif %}
+  {% if next_post %}
+  <a class="next" href="{{ root_path }}blog/{{ next_post.slug }}.html"><span>下一篇</span>{{ next_post.title }}</a>
+  {% endif %}
+</nav>
+
+{% if config.show_comments %}
+<section class="comments" aria-labelledby="comments-title">
+  <div class="section-title">
+    <h2 id="comments-title">歷史回應</h2>
+    <span>{{ comments | length }} 則</span>
+  </div>
+  {% for comment in comments %}
+  <article class="comment">
+    <header>
+      <strong>{{ comment.author or '匿名' }}</strong>
+      <time datetime="{{ comment.date }}">{{ comment.date | date_zh }}</time>
+    </header>
+    <div class="comment-body">{{ comment.rendered_html | safe }}</div>
+    {% if comment.rendered_reply_html %}
+    <div class="owner-reply">
+      <strong>版主回覆：</strong>
+      {{ comment.rendered_reply_html | safe }}
+    </div>
+    {% endif %}
+  </article>
+  {% else %}
+  <p class="no-comments">這篇文章沒有公開的歷史回應。</p>
+  {% endfor %}
+</section>
+{% endif %}
+{% endblock %}
+

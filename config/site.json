@@ -1,0 +1,13 @@
+{
+  "site_name": null,
+  "site_description": null,
+  "timezone": "Asia/Taipei",
+  "posts_per_page": 10,
+  "include_drafts": false,
+  "include_hidden_comments": false,
+  "show_comments": true,
+  "missing_media": "placeholder",
+  "category_fallback": "未分類",
+  "robots": "noindex"
+}
+

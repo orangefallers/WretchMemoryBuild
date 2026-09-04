@@ -1,0 +1,17 @@
+<article class="post-card">
+  <header class="post-heading">
+    <time datetime="{{ post.date }}">{{ post.date | date_zh }}</time>
+    <h2><a href="{{ root_path }}blog/{{ post.slug }}.html">{{ post.title }}</a></h2>
+  </header>
+  <div class="post-summary">{{ post.excerpt }}</div>
+  {% if post.tags %}
+  <ul class="tag-list" aria-label="文章標籤">
+    {% for tag in post.tags %}<li>{{ tag }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+  <footer class="post-card-footer">
+    <a href="{{ root_path }}blog/{{ post.slug }}.html">繼續閱讀</a>
+    <span>回應 ({{ post.comment_count }})</span>
+  </footer>
+</article>
+

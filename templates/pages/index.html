@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="section-title">
+    <h2>最新文章</h2>
+    <span>共 {{ pagination.total }} 頁</span>
+  </div>
+  {% for post in posts %}
+    {% include "components/post-card.html" %}
+  {% else %}
+    <div class="empty-state">目前沒有可顯示的公開文章。</div>
+  {% endfor %}
+  {% include "components/pagination.html" %}
+{% endblock %}
+

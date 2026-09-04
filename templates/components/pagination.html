@@ -1,0 +1,20 @@
+{% if pagination.total > 1 %}
+<nav class="pagination" aria-label="文章分頁">
+  {% if pagination.current > 1 %}
+    {% set previous = pagination.current - 1 %}
+    <a href="{{ root_path if previous == 1 else root_path ~ 'page/' ~ previous ~ '/' }}">上一頁</a>
+  {% endif %}
+  {% for number in range(1, pagination.total + 1) %}
+    {% if number == pagination.current %}
+    <strong aria-current="page">{{ number }}</strong>
+    {% else %}
+    <a href="{{ root_path if number == 1 else root_path ~ 'page/' ~ number ~ '/' }}">{{ number }}</a>
+    {% endif %}
+  {% endfor %}
+  {% if pagination.current < pagination.total %}
+    {% set following = pagination.current + 1 %}
+    <a href="{{ root_path }}page/{{ following }}/">下一頁</a>
+  {% endif %}
+</nav>
+{% endif %}
+
